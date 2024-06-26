@@ -1,10 +1,14 @@
 import json
 
+
 # Custom exception
 class DataProcessingError(Exception):
     """Custom exception for data processing errors"""
 
+
 # Simplified JSON schema
+
+
 SIMPLIFIED_SCHEMA = json.loads("""
 {
   "$schema": "http://json-schema.org/schema#",

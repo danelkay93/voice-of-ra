@@ -16,7 +16,7 @@ def test_scenario_from_json(example_json_path: Path) -> None:
 
 def test_read_json_file(example_json_path: Path) -> None:
     data = read_json_file(example_json_path)
-    assert data["id"] == "example_scenario"  # noqa: S101
+    assert data["id"] == "example_scenario"
 
 
 def test_validate_json_schema(example_json_path: Path) -> None:

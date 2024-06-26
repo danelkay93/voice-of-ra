@@ -29,7 +29,7 @@ class LoadJSONCommand(Command):
 # Strategy pattern
 class OutputStrategy(ABC):
     @abstractmethod
-    def generate(self, scenario: Scenario) -> str:  # noqa: ARG002
+    def generate(self, scenario: Scenario) -> str:
         # Stub for future TTS implementation
         msg = "TTS output is not yet implemented"
         raise NotImplementedError(msg)

@@ -1,4 +1,5 @@
 from pathlib import Path
+
 from main import MarkdownOutputStrategy, process_scenario
 
 

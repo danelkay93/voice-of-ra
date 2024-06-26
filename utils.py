@@ -12,7 +12,7 @@ def read_json_file(file_path: Path) -> dict:
         return json.loads(file_path.read_text(encoding="utf-8"))
     except json.JSONDecodeError as e:
         msg = f"Error reading JSON file: {e}"
-        raise DataProcessingError(msg)
+        raise DataProcessingError(msg) from None
 
 
 def validate_json_schema(data: dict) -> None:
@@ -20,12 +20,12 @@ def validate_json_schema(data: dict) -> None:
         validate(instance=data, schema=SIMPLIFIED_SCHEMA)
     except JSONSchemaValidationError as e:
         msg = f"JSON schema validation error: {e}"
-        raise DataProcessingError(msg)
+        raise DataProcessingError(msg) from None
 
 
 def write_output(file_path: Path, content: str) -> None:
     try:
         file_path.write_text(content, encoding="utf-8")
-    except Exception as e:
+    except OSError as e:
         msg = f"Error writing output file: {e}"
-        raise DataProcessingError(msg)
+        raise DataProcessingError(msg) from None
