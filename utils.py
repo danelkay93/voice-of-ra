@@ -4,7 +4,7 @@ from jsonschema import validate
 from jsonschema import ValidationError as JSONSchemaValidationError
 from pydantic import ValidationError
 
-from main import SIMPLIFIED_SCHEMA, DataProcessingError
+from schema import SIMPLIFIED_SCHEMA, DataProcessingError
 
 def read_json_file(file_path: Path) -> dict:
     try:

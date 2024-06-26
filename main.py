@@ -6,7 +6,7 @@ from typing import Annotated, Any
 
 import click
 from model import Narration, Step, Resolution, Scenario
-from schema import SIMPLIFIED_SCHEMA, DataProcessingError
+from schema import DataProcessingError
 from utils import read_json_file, validate_json_schema, write_output as utils_write_output
 from pydantic import BaseModel, ConfigDict, Field, ValidationError
 
