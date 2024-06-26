@@ -16,7 +16,7 @@ logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(
 # Command pattern
 class Command(ABC):
     @abstractmethod
-    def execute(self, data: dict[str, Any]) -> Any:
+    def execute(self, data: dict[str, Any]) -> Scenario:
         pass
 
 
@@ -30,6 +30,9 @@ class LoadJSONCommand(Command):
 class OutputStrategy(ABC):
     @abstractmethod
     def generate(self, scenario: Scenario) -> str:
+        # Stub for future TTS implementation
+        msg = "TTS output is not yet implemented"
+        raise NotImplementedError(msg)
         pass
 
 
@@ -58,7 +61,7 @@ def process_scenario(file_path: Path, output_strategy: OutputStrategy) -> None:
         output_path = file_path.parent / (file_path.stem + "_output.txt")
         utils_write_output(output_path, output)
     except DataProcessingError as e:
-        logging.exception(f"Error processing scenario: {e}")
+        logging.exception("Error processing scenario: %s", e)
         raise
 
 
@@ -78,9 +81,9 @@ def main(input_file_path: Path, output_format: str) -> None:
     except NotImplementedError:
         logging.exception("The selected output strategy is not yet implemented.")
         msg = "Selected output strategy is not available."
-        raise click.ClickException(msg)
+        raise click.ClickException(msg) from None
     except DataProcessingError as e:
-        logging.exception(f"Data processing failed: {e}")
+        logging.exception("Data processing failed: %s", e)
         raise click.ClickException(str(e))
 
 

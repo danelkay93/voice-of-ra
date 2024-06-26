@@ -4,7 +4,7 @@ import pytest
 
 
 @pytest.fixture(scope="session")
-def example_json_path(tmp_path_factory):
+def example_json_path(tmp_path_factory) -> Path:
     json_content = {
         "id": "example_scenario",
         "scenario_name": "Example Scenario",
