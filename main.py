@@ -6,7 +6,6 @@ from typing import Annotated, Any
 
 import click
 from utils import read_json_file, validate_json_schema, write_output
-from dataclasses import dataclass, field
 from pydantic import BaseModel, ConfigDict, Field, ValidationError
 
 # Set up logging
@@ -92,9 +91,8 @@ class MarkDownModel(BaseModel, ABC):
         pass
 
 
-@dataclass
-class Narration:
-    narration_id: str
+class Narration(MarkDownModel):
+    narration_id: Annotated[str, Field(alias="id")]
     name: str | None = None
     lang: list[str] | None = None
 
@@ -105,9 +103,8 @@ class Narration:
         return f"{self.narration_id}\n{H2_HEADER}\n"
 
 
-@dataclass
-class Step:
-    step_id: str
+class Step(MarkDownModel):
+    step_id: Annotated[str, Field(alias="id")]
     narration: Narration | None = None
     text: str | None = None
     type: str | None = None
@@ -125,9 +122,8 @@ class Step:
         return "".join(output)
 
 
-@dataclass
-class Resolution:
-    resolution_id: str
+class Resolution(MarkDownModel):
+    resolution_id: Annotated[str, Field(alias="id")]
     narration: Narration
     text: str
 
