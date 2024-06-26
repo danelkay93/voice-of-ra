@@ -5,7 +5,7 @@ from model import Scenario
 
 
 @given(st.builds(Scenario))
-def test_scenario_model(scenario) -> None:
+def test_scenario_model(scenario: Scenario) -> None:
     assert isinstance(scenario, Scenario)
     assert scenario.scenario_id is not None
     assert scenario.scenario_name is not None

@@ -33,7 +33,6 @@ class OutputStrategy(ABC):
         # Stub for future TTS implementation
         msg = "TTS output is not yet implemented"
         raise NotImplementedError(msg)
-        pass
 
 
 class MarkdownOutputStrategy(OutputStrategy):
@@ -60,9 +59,9 @@ def process_scenario(file_path: Path, output_strategy: OutputStrategy) -> None:
         output = output_strategy.generate(scenario)
         output_path = file_path.parent / (file_path.stem + "_output.txt")
         utils_write_output(output_path, output)
-    except DataProcessingError as e:
-        logging.exception("Error processing scenario: %s", e)
-        raise
+    except DataProcessingError:
+        logging.exception("Error processing scenario")
+        raise DataProcessingError from None
 
 
 @click.command()
@@ -83,8 +82,8 @@ def main(input_file_path: Path, output_format: str) -> None:
         msg = "Selected output strategy is not available."
         raise click.ClickException(msg) from None
     except DataProcessingError as e:
-        logging.exception("Data processing failed: %s", e)
-        raise click.ClickException(str(e))
+        logging.exception("Data processing failed")
+        raise click.ClickException(str(e)) from None
 
 
 if __name__ == "__main__":
