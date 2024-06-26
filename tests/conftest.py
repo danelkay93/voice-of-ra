@@ -1,4 +1,5 @@
 import pytest
+import json
 
 @pytest.fixture(scope="session")
 def example_json_path(tmp_path_factory):
