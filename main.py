@@ -1,21 +1,16 @@
-import json
 import logging
 from abc import ABC, abstractmethod
 from pathlib import Path
-from typing import Annotated, Any
+from typing import Any
 
 import click
-from model import Narration, Step, Resolution, Scenario
+
+from model import Scenario
 from schema import DataProcessingError
-from utils import read_json_file, validate_json_schema, write_output as utils_write_output
-from pydantic import BaseModel, ConfigDict, Field, ValidationError
+from utils import write_output as utils_write_output
 
 # Set up logging
 logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
-
-from constants import H1_HEADER, H2_HEADER
-
-
 
 
 # Command pattern
@@ -54,8 +49,6 @@ class TTSOutputStrategy(OutputStrategy):
         # Stub for future TTS implementation
         msg = "TTS output is not yet implemented"
         raise NotImplementedError(msg)
-
-
 
 
 def process_scenario(file_path: Path, output_strategy: OutputStrategy) -> None:

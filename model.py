@@ -1,13 +1,13 @@
-import json
 from abc import ABC, abstractmethod
-from typing import Annotated
 from pathlib import Path
-from pydantic import BaseModel, ConfigDict, Field
-from utils import read_json_file, validate_json_schema
+from typing import Annotated
 
-from schema import DataProcessingError
+from pydantic import BaseModel, ConfigDict, Field
 
 from constants import H1_HEADER, H2_HEADER
+from schema import DataProcessingError
+from utils import read_json_file, validate_json_schema
+
 
 class MarkDownModel(BaseModel, ABC):
     model_config = ConfigDict(populate_by_name=True)
