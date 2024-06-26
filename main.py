@@ -5,8 +5,8 @@ from pathlib import Path
 from typing import Annotated, Any
 
 import click
-from jsonschema import ValidationError as JSONSchemaValidationError
-from jsonschema import validate
+from utils import read_json_file, validate_json_schema, write_output
+from dataclasses import dataclass, field
 from pydantic import BaseModel, ConfigDict, Field, ValidationError
 
 # Set up logging
@@ -92,8 +92,9 @@ class MarkDownModel(BaseModel, ABC):
         pass
 
 
-class Narration(MarkDownModel):
-    narration_id: Annotated[str, Field(alias="id")]
+@dataclass
+class Narration:
+    narration_id: str
     name: str | None = None
     lang: list[str] | None = None
 
@@ -104,8 +105,9 @@ class Narration(MarkDownModel):
         return f"{self.narration_id}\n{H2_HEADER}\n"
 
 
-class Step(MarkDownModel):
-    step_id: Annotated[str, Field(alias="id")]
+@dataclass
+class Step:
+    step_id: str
     narration: Narration | None = None
     text: str | None = None
     type: str | None = None
@@ -123,8 +125,9 @@ class Step(MarkDownModel):
         return "".join(output)
 
 
-class Resolution(MarkDownModel):
-    resolution_id: Annotated[str, Field(alias="id")]
+@dataclass
+class Resolution:
+    resolution_id: str
     narration: Narration
     text: str
 
@@ -158,14 +161,9 @@ class Scenario(MarkDownModel):
     @classmethod
     def from_json(cls, file_path: Path) -> "Scenario":
         """Read and parse the JSON file using Pydantic and validate against schema."""
-        try:
-            data = json.loads(file_path.read_text(encoding="utf-8"))
-            validate(instance=data, schema=SIMPLIFIED_SCHEMA)
-            return cls.model_validate(data)
-        except (json.JSONDecodeError, JSONSchemaValidationError, ValidationError) as e:
-            logging.error("Error processing JSON data", exc_info=True)
-            msg = "Invalid JSON data"
-            raise DataProcessingError(msg) from e
+        data = read_json_file(file_path)
+        validate_json_schema(data)
+        return cls.model_validate(data)
 
 
 # Command pattern
