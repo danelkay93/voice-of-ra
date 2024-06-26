@@ -62,7 +62,7 @@ def process_scenario(file_path: Path, output_strategy: OutputStrategy) -> None:
     try:
         scenario = LoadJSONCommand().execute({"file_path": file_path})
         output = output_strategy.generate(scenario)
-        output_path = file_path.with_stem(file_path.stem + "_output").with_suffix(".txt")
+        output_path = file_path.parent / (file_path.stem + "_output.txt")
         utils_write_output(output_path, output)
     except DataProcessingError as e:
         logging.exception(f"Error processing scenario: {e}")
