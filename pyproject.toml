@@ -36,7 +36,7 @@ unfixable = []
 #unsafe-fixes = true
 #lint.extend-fixable = ["B"]
 #lint.preview = true
-ignore = ["ISC001", "COM812"]
+ignore = ["ISC001", "COM812", "S101"]
 # Enumerate all fixed violations.
 #show-fixes = true
 
