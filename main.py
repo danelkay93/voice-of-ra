@@ -6,15 +6,13 @@ from typing import Annotated, Any
 
 import click
 from model import Narration, Step, Resolution, Scenario
-from utils import read_json_file, validate_json_schema, write_output
+from utils import read_json_file, validate_json_schema, write_output as utils_write_output
 from pydantic import BaseModel, ConfigDict, Field, ValidationError
 
 # Set up logging
 logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
 
-# Constants
-H1_HEADER = "=" * 6
-H2_HEADER = "-" * 6
+from constants import H1_HEADER, H2_HEADER
 
 
 # Custom exception
@@ -119,14 +117,6 @@ class TTSOutputStrategy(OutputStrategy):
         raise NotImplementedError(msg)
 
 
-def write_output(file_path: Path, content: str) -> None:
-    try:
-        file_path.write_text(content, encoding="utf-8")
-        logging.info(f"Output written successfully: {file_path}")
-    except Exception as e:
-        logging.error("Failed to write output file", exc_info=True)
-        msg = f"Error writing output file: {e}"
-        raise DataProcessingError(msg)
 
 
 def process_scenario(file_path: Path, output_strategy: OutputStrategy) -> None:
@@ -134,7 +124,7 @@ def process_scenario(file_path: Path, output_strategy: OutputStrategy) -> None:
         scenario = LoadJSONCommand().execute({"file_path": file_path})
         output = output_strategy.generate(scenario)
         output_path = file_path.with_stem(file_path.stem + "_output").with_suffix(".txt")
-        write_output(output_path, output)
+        utils_write_output(output_path, output)
     except DataProcessingError as e:
         logging.exception(f"Error processing scenario: {e}")
         raise

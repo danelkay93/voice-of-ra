@@ -7,9 +7,7 @@ from utils import read_json_file, validate_json_schema
 
 from main import DataProcessingError
 
-# Constants
-H1_HEADER = "=" * 6
-H2_HEADER = "-" * 6
+from constants import H1_HEADER, H2_HEADER
 
 class MarkDownModel(BaseModel, ABC):
     model_config = ConfigDict(populate_by_name=True)
