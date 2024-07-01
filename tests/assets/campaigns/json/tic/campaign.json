@@ -1,0 +1,484 @@
+{
+  "id": "tic",
+  "position": 7,
+  "version": 4,
+  "name": "The Innsmouth Conspiracy",
+  "tarot": [
+    "the_pit_of_despair",
+    "the_vanishing_of_elina_harper",
+    "in_too_deep",
+    "devil_reef",
+    "horror_in_high_gear",
+    "a_light_in_the_fog",
+    "the_lair_of_dagon",
+    "into_the_maelstrom"
+  ],
+  "campaign_type": "campaign",
+  "campaign_log": [
+    {
+      "id": "campaign_notes",
+      "title": "Campaign Notes"
+    },
+    {
+      "id": "memories_recovered",
+      "title": "Memories Recovered"
+    },
+    {
+      "id": "possible_suspects",
+      "title": "Possible Suspects"
+    },
+    {
+      "id": "possible_hideouts",
+      "title": "Possible Hideouts"
+    },
+    {
+      "id": "hidden",
+      "hidden": true,
+      "title": "Hidden"
+    }
+  ],
+  "scenarios": [
+    "the_pit_of_despair",
+    "puzzle_pieces",
+    "the_vanishing_of_elina_harper",
+    "the_syzygy",
+    "in_too_deep",
+    "devil_reef",
+    "beneath_the_waves",
+    "horror_in_high_gear",
+    "a_light_in_the_fog",
+    "the_lair_of_dagon",
+    "hidden_truths",
+    "into_the_maelstrom",
+    "tic_epilogue"
+  ],
+  "setup": [
+    "setup_campaign_log",
+    "prologue",
+    "choose_investigators",
+    "difficulty_choice",
+    "maybe_draw_weakness",
+    "$keys_rule",
+    "$flood_token_rule"
+  ],
+  "rules": [
+    {
+      "title": "Keys",
+      "steps": [
+        "$keys_rule"
+      ]
+    },
+    {
+      "title": "Flood Tokens",
+      "steps": [
+        "$flood_token_rule"
+      ]
+    }
+  ],
+  "steps": [
+    {
+      "id": "maybe_draw_weakness",
+      "type": "branch",
+      "hidden": true,
+      "condition": {
+        "type": "campaign_data",
+        "campaign_data": "version",
+        "min_version": 3,
+        "options": [
+          {
+            "boolCondition": true,
+            "steps": [
+              "draw_weakness"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "draw_weakness",
+      "type": "input",
+      "bullet_type": "none",
+      "input": {
+        "type": "investigator_choice",
+        "source": "scenario",
+        "investigator": "all",
+        "choices": [
+          {
+            "id": "rbw",
+            "text": "Draw Random Basic Weakness",
+            "effects": [
+              {
+                "type": "add_weakness",
+                "investigator": "$input_value",
+                "weakness_traits": [],
+                "select_traits": false
+              },
+              {
+                "type": "remove_card",
+                "investigator": "$input_value",
+                "card": "01000",
+                "non_story": true
+              }
+            ],
+            "steps": [
+              "save_decks"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "save_decks",
+      "type": "input",
+      "input": {
+        "type": "save_decks",
+        "trauma": true
+      }
+    },
+    {
+      "id": "setup_campaign_log",
+      "text": "dummy",
+      "hidden": true,
+      "effects": [
+        {
+          "type": "campaign_log",
+          "section": "possible_suspects",
+          "id": "burnham",
+          "text": "Brian Burnham"
+        },
+        {
+          "type": "campaign_log",
+          "section": "possible_suspects",
+          "id": "gilman",
+          "text": "Othera Gilman"
+        },
+        {
+          "type": "campaign_log",
+          "section": "possible_suspects",
+          "id": "little",
+          "text": "Joyce Little"
+        },
+        {
+          "type": "campaign_log",
+          "section": "possible_suspects",
+          "id": "marsh",
+          "text": "Barnabas Marsh"
+        },
+        {
+          "type": "campaign_log",
+          "section": "possible_suspects",
+          "id": "allen",
+          "text": "Zadok Allen"
+        },
+        {
+          "type": "campaign_log",
+          "section": "possible_suspects",
+          "id": "friendly",
+          "text": "Robert Friendly"
+        },
+        {
+          "type": "campaign_log",
+          "section": "possible_hideouts",
+          "id": "innsmouth_jail",
+          "text": "Innsmouth Jail"
+        },
+        {
+          "type": "campaign_log",
+          "section": "possible_hideouts",
+          "id": "shoreward_slums",
+          "text": "Shoreward Slums"
+        },
+        {
+          "type": "campaign_log",
+          "section": "possible_hideouts",
+          "id": "sawbone_alley",
+          "text": "Sawbone Alley"
+        },
+        {
+          "type": "campaign_log",
+          "section": "possible_hideouts",
+          "id": "house_on_water_street",
+          "text": "The House on Water Street"
+        },
+        {
+          "type": "campaign_log",
+          "section": "possible_hideouts",
+          "id": "order_of_dagon",
+          "text": "Esoteric Order of Dagon"
+        },
+        {
+          "type": "campaign_log",
+          "section": "possible_hideouts",
+          "id": "new_church_green",
+          "text": "New Church Green"
+        }
+      ]
+    },
+    {
+      "id": "prologue",
+      "type": "story",
+      "title": "In the Deep, They Thrive",
+      "text": "“It was a town of wide extent and dense construction, yet one with a portentous dearth of visible life.”\n–H. P. Lovecraft, “The Shadow Over Innsmouth”"
+    },
+    {
+      "id": "choose_investigators",
+      "type": "input",
+      "input": {
+        "type": "scenario_investigators"
+      }
+    },
+    {
+      "id": "difficulty_choice",
+      "text": "Choose difficulty level:",
+      "type": "input",
+      "input": {
+        "type": "choose_one",
+        "default_choice": "standard",
+        "choices": [
+          {
+            "id": "easy",
+            "text": "Easy",
+            "description": "<i>I want to experience the story</i>",
+            "tokens": [
+              "+1",
+              "+1",
+              "0",
+              "0",
+              "0",
+              "-1",
+              "-1",
+              "-1",
+              "-2",
+              "-2",
+              "skull",
+              "skull",
+              "cultist",
+              "cultist",
+              "tablet",
+              "tablet",
+              "elder_thing",
+              "elder_thing",
+              "auto_fail",
+              "elder_sign"
+            ],
+            "effects": [
+              {
+                "type": "campaign_data",
+                "setting": "difficulty",
+                "value": "easy"
+              },
+              {
+                "type": "add_chaos_token",
+                "tokens": [
+                  "+1",
+                  "+1",
+                  "0",
+                  "0",
+                  "0",
+                  "-1",
+                  "-1",
+                  "-1",
+                  "-2",
+                  "-2",
+                  "skull",
+                  "skull",
+                  "cultist",
+                  "cultist",
+                  "tablet",
+                  "tablet",
+                  "elder_thing",
+                  "elder_thing",
+                  "auto_fail",
+                  "elder_sign"
+                ]
+              }
+            ]
+          },
+          {
+            "id": "standard",
+            "text": "Standard",
+            "description": "<i>I want a challenge</i>",
+            "tokens": [
+              "+1",
+              "0",
+              "0",
+              "-1",
+              "-1",
+              "-1",
+              "-2",
+              "-2",
+              "-3",
+              "-4",
+              "skull",
+              "skull",
+              "cultist",
+              "cultist",
+              "tablet",
+              "tablet",
+              "elder_thing",
+              "elder_thing",
+              "auto_fail",
+              "elder_sign"
+            ],
+            "effects": [
+              {
+                "type": "campaign_data",
+                "setting": "difficulty",
+                "value": "standard"
+              },
+              {
+                "type": "add_chaos_token",
+                "tokens": [
+                  "+1",
+                  "0",
+                  "0",
+                  "-1",
+                  "-1",
+                  "-1",
+                  "-2",
+                  "-2",
+                  "-3",
+                  "-4",
+                  "skull",
+                  "skull",
+                  "cultist",
+                  "cultist",
+                  "tablet",
+                  "tablet",
+                  "elder_thing",
+                  "elder_thing",
+                  "auto_fail",
+                  "elder_sign"
+                ]
+              }
+            ]
+          },
+          {
+            "id": "hard",
+            "text": "Hard",
+            "description": "<i>I want a true nightmare</i>",
+            "tokens": [
+              "0",
+              "0",
+              "0",
+              "-1",
+              "-1",
+              "-2",
+              "-2",
+              "-3",
+              "-3",
+              "-4",
+              "-5",
+              "skull",
+              "skull",
+              "cultist",
+              "cultist",
+              "tablet",
+              "tablet",
+              "elder_thing",
+              "elder_thing",
+              "auto_fail",
+              "elder_sign"
+            ],
+            "effects": [
+              {
+                "type": "campaign_data",
+                "setting": "difficulty",
+                "value": "hard"
+              },
+              {
+                "type": "add_chaos_token",
+                "tokens": [
+                  "0",
+                  "0",
+                  "0",
+                  "-1",
+                  "-1",
+                  "-2",
+                  "-2",
+                  "-3",
+                  "-3",
+                  "-4",
+                  "-5",
+                  "skull",
+                  "skull",
+                  "cultist",
+                  "cultist",
+                  "tablet",
+                  "tablet",
+                  "elder_thing",
+                  "elder_thing",
+                  "auto_fail",
+                  "elder_sign"
+                ]
+              }
+            ]
+          },
+          {
+            "id": "expert",
+            "text": "Expert",
+            "description": "<i>I want Arkham Horror</i>",
+            "tokens": [
+              "0",
+              "-1",
+              "-1",
+              "-2",
+              "-2",
+              "-3",
+              "-3",
+              "-4",
+              "-4",
+              "-5",
+              "-6",
+              "-8",
+              "skull",
+              "skull",
+              "cultist",
+              "cultist",
+              "tablet",
+              "tablet",
+              "elder_thing",
+              "elder_thing",
+              "auto_fail",
+              "elder_sign"
+            ],
+            "effects": [
+              {
+                "type": "campaign_data",
+                "setting": "difficulty",
+                "value": "expert"
+              },
+              {
+                "type": "add_chaos_token",
+                "tokens": [
+                  "0",
+                  "-1",
+                  "-1",
+                  "-2",
+                  "-2",
+                  "-3",
+                  "-3",
+                  "-4",
+                  "-4",
+                  "-5",
+                  "-6",
+                  "-8",
+                  "skull",
+                  "skull",
+                  "cultist",
+                  "cultist",
+                  "tablet",
+                  "tablet",
+                  "elder_thing",
+                  "elder_thing",
+                  "auto_fail",
+                  "elder_sign"
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}
