@@ -10,7 +10,8 @@ from schema import DataProcessingError
 from utils import write_output as utils_write_output
 
 # Set up logging
-logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
+logging.basicConfig(level=logging.INFO,
+                    format="%(asctime)s - %(levelname)s - %(message)s")
 
 
 # Command pattern
@@ -78,7 +79,8 @@ def main(input_file_path: Path, output_format: str) -> None:
         strategy = strategy_map[output_format]
         process_scenario(input_file_path, strategy)
     except NotImplementedError:
-        logging.exception("The selected output strategy is not yet implemented.")
+        logging.exception(
+            "The selected output strategy is not yet implemented.")
         msg = "Selected output strategy is not available."
         raise click.ClickException(msg) from None
     except DataProcessingError as e:
