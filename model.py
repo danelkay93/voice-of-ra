@@ -80,7 +80,8 @@ class Scenario(MarkDownModel):
     def to_markdown(self) -> str:
         output = [f"{self.scenario_name}\n{H1_HEADER}"]
         story_steps = [step for step in self.steps if step.narration]
-        output.extend(item.to_markdown() for item in story_steps + self.resolutions)
+        output.extend(item.to_markdown()
+                      for item in story_steps + self.resolutions)
         return "\n".join(output)
 
     @classmethod
